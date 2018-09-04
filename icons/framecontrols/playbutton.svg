@@ -1,0 +1,9 @@
+<svg id="Vector" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <defs>
+        <style>
+            .cls-1{fill:lime;}
+        </style>
+    </defs>
+    <title>playbutton</title>
+    <polygon class="cls-1" points="64 35 64 478 448.18 255.58 64 35"/>
+</svg>

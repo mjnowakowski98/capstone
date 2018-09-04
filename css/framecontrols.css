@@ -1,0 +1,5 @@
+#fc-playback-start { background-image:url("../icons/framecontrols/playbutton.svg"); }
+#fc-playback-stop { background-image:url("../icons/framecontrols/stopbutton.svg"); }
+#fc-add-blank-frame { background-image:url("../icons/framecontrols/addblankframe.svg"); }
+#fc-add-copy-frame { background-image:url("../icons/framecontrols/addcopyframe.svg"); }
+#fc-remove-frame { background-image:url("../icons/framecontrols/removeframe.svg"); }

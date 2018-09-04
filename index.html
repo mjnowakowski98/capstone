@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+    <header class="row bg-primary">
+        <div class="col">
+            <h1 class="text-white">JAE</h1>
+        </div>
+        <div id="sign-out" class="col py-1 d-none">
+            <form action="#" method="GET" class="d-flex justify-content-end">
+                <span class="text-white m-1 p-1">Welcome back, TestDerp1</span>
+                <input type="button" onclick="signOut();" id="sign-out-btn" class="btn btn-secondary" value="Sign Out">
+            </form>
+        </div>
+    </header>
+
+    <div id="main" class="row">
+        <!-- Dynamic content goes here -->
+        <!-- Newsfeed for sign-in users, Intro text for signed out -->
+        <div style="overflow-y:auto; height:600px;" id="main-content" class="col col-lg-8 my-2 border-right">
+            <!-- Signed out text -->
+            <div id="static-intro" class="container mb-2">
+                <div class="row border-bottom">
+                    <div class="col">
+                        <h2 class="mb-0">Welcome to JAE</h2>
+                        <small class="text-secondary">For the simple animations</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write
+                            some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here,
+                        </p>
+                    
+                        <a href="editor.html" class="btn btn-primary">Enter JAE</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="sign-in-content" class="d-none">
+                <div id="static-new-project" class="container mb-2">
+                    <div class="row border-bottom">
+                        <div class="col">
+                            <h2>Start something new</h2>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col">
+                            <a href="editor.html" class="btn btn-primary">Enter JAE</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="static-load-anim" class="container mb-3">
+                    <div class="row border-bottom">
+                        <div class="col">
+                            <h2>Load</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small class="text-muted">Loading server shit coming soon&trade;</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dynamics" class="border-top border-primary">
+                    <div id="dynamic1" class="container mb-2">
+                        <div class="row border-bottom">
+                            <div class="col">
+                                <h2>Test article</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <article>
+                                    Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write
+                                    some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some
+                                    bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here,
+                                    Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write some bs here, Write
+                                    some bs here, Write some bs here,
+                                </article>
+                                <img src="icons/appmenu/saveanimation.svg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    
+        <!-- Hides on sign in -->
+        <div id="sign-in-sign-up" class="col col-lg-4 my-2">
+            <div class="col">
+                <form action="#" method="POST">
+                    <h1>Sign In</h1>
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Email</span>
+                        </div>
+                        <input type="text" id="sign-in-email" class="form-control">
+                    </div>
+    
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Password</span>
+                        </div>
+                        <input type="password" id="sign-in-password" class="form-control">
+                    </div>
+                    <input type="button" onclick="signIn();" class="btn mb-1 btn-primary form-control" value="Sign In">
+                </form>
+            </div>
+
+            <div class="col border-top my-2">
+                <form action="#" method="POST">
+                    <h1>Sign Up</h1>
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Email</span>
+                        </div>
+                        <input type="text" id="sign-up-email" class="form-control">
+                    </div>
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Password</span>
+                        </div>
+                        <input type="password" id="sign-up-pass1" class="form-control">
+                    </div>
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Repeat password</span>
+                        </div>
+                        <input type="password" id="sign-up-pass2" class="form-control">
+                    </div>
+                    <input type="button" onclick="signIn();" class="btn mb-1 btn-primary form-control" value="Sign Up">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="row text-white bg-secondary">
+        <p class="col-12 py-0 my-1">Javascript Animation Engine (JAE)&trade;</p>
+        <p class="col-12 py-0">Created and maintained by Matthew Nowakowski</p>
+    </footer>
+</div>
+
+
+    <!-- Boostrap scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+
+
+<script>
+    var signOutDiv = document.getElementById("sign-out");
+    var signInUp = document.getElementById("sign-in-sign-up");
+    var mainContent = document.getElementById("main-content");
+    var staticIntro = document.getElementById("static-intro");
+    var signInContent = document.getElementById("sign-in-content");
+
+    function signIn() {
+        signOutDiv.classList.remove("d-none");
+        signInUp.classList.add("d-none");
+        mainContent.classList.remove("col-lg-8");
+        mainContent.classList.remove("border-right");
+        staticIntro.classList.add("d-none");
+        signInContent.classList.remove("d-none");
+    }
+
+    function signOut() {
+        signOutDiv.classList.add("d-none");
+        signInUp.classList.remove("d-none");
+        mainContent.classList.add("col-lg-8");
+        mainContent.classList.add("border-right");
+        staticIntro.classList.remove("d-none");
+        signInContent.classList.add("d-none");
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JAE - Editor</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Client CSS -->
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <link href="css/appmenu.css" type="text/css" rel="stylesheet">
+    <link href="css/toolbox.css" type="text/css" rel="stylesheet">
+    <link href="css/framecontrols.css" type="text/css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- Application Menu/Animation Title -->
+<header style="height:46px;" class="container-fluid fixed-top">
+    <div class="row">
+        <!-- Application menu -->
+        <span class="col-9 py-1 bg-dark">
+            <!-- Save Animation-->
+            <button type="button" id="am-save-animation" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-save-animation-modal"></button>
+
+            <!-- Load Animation -->
+            <button type="button" id="am-load-animation" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-load-animation-modal"></button>
+
+            <!-- Save Object -->
+            <button type="button" id="am-save-object" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-save-object-modal" disabled></button>
+
+            <!-- Load Object -->
+            <button type="button" id="am-load-object" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-load-object-modal" disabled></button>
+
+            <!-- Project Settings -->
+            <button type="button" id="am-project-settings" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-project-settings-modal"></button>
+
+            <!-- Index -->
+            <a href="index.html" id="am-indexbtn" class="btn btn-primary">Back to Index</a>
+        </span>
+
+        <!-- Animation Title -->
+        <span class="marquee-container col-3 py-1 text-nowrap">
+            <h1 id="anim-title" class="mb-1 text-center">Untitled Animation</h1>
+        </span>
+    </div>
+</header>
+
+<!-- Canvas/Object Viewer -->
+<div class="container-fluid">
+    <div id="central-editor" class="row border-top border-bottom">
+        <!-- Canavs -->
+        <span style="overflow:auto;" class="col-10 m-0 p-0 bg-white">
+            <canvas id="canvas" class="m-3 border" width="1024" height="720">
+                <p>This browser does not support the HTML5 canvas</p>
+            </canvas>
+        </span>
+
+        <!-- Object Viewer -->
+        <span style="overflow-y:auto;" class="col-2 m-0 p-0 bg-dark border-left">
+            <!-- Section Label -->
+            <div class="object-list-item bg-label">
+                <p class="my-0 font-weight-bold text-center">Object Viewer</p>
+            </div>
+
+            <!-- Dynamic Container -->
+            <div id="object-list-container" class="border-top border-bottom">
+                <!-- Template for JS creation-->
+                <!-- <div class="object-list-item text-black bg-light">
+                    <p class="my-0">   i % 2 = 0   </p>
+                </div> -->
+                <!-- <div class="object-list-item text-white bg-dark">
+                    <p class="my-0">   i % 2 = 1   </p>
+                </div> -->
+            </div>
+        </span>
+    </div>
+</div>
+
+<!-- Toolbox/Frames Viewer-->
+<footer style="height:92px;" class="container-fluid fixed-bottom">
+    <!-- Top (Playback Start/Stop, Toolbox) -->
+    <div style="height:46px;" class="row">
+        <!-- Playback Start/Stop -->
+        <span class="col-2 py-1 d-inline-flex justify-content-around border-right">
+            <button type="button" id="fc-playback-start" class="iconbtn btn btn-outline-success"></button>
+            <button type="button" id="fc-playback-stop" class="iconbtn btn btn-outline-danger" disabled></button>
+        </span>
+
+        <!-- Toolbox -->
+        <span class="col-10 py-1">
+            <!-- Select Tool -->
+            <button type="button" id="tool-select" class="iconbtn btn btn-outline-primary"></button>
+
+            <!-- Rectangle Tool -->
+            <button type="button" id="tool-rectangle" class="iconbtn btn btn-outline-primary"></button>
+
+            <!-- Circle Tool -->
+            <button type="button" id="tool-circle" class="iconbtn btn btn-outline-primary"></button>
+
+            <!-- Path Tool -->
+            <button type="button" id="tool-path" class="iconbtn btn btn-outline-primary"></button>
+
+            <!-- Object Properties -->
+            <button type="button" id="tool-object-properties" class="iconbtn btn btn-outline-primary" data-toggle="dropdown"></button>
+            <div class="dropdown-menu">
+                <button type="button" class="dropdown-item">Name</button>
+                <button type="button" class="dropdown-item">Fill/Stroke</button>
+                <button type="button" class="dropdown-item">Scale</button>
+                <button type="button" class="dropdown-item">Delete</button>
+            </div>
+
+            <button type="button" id="fill-stroke" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#fill-stroke-modal"></button>
+        </span>
+    </div>
+
+    <!-- Bottom (Frame Controls, Frame Viewer) -->
+    <div style="height:46px;" class="row bg-dark">
+        <!-- Frame Controls-->
+        <span class="col-2 py-1 d-inline-flex justify-content-around border-right">
+            <!-- Add Blank Frame -->
+            <button type="button" id="fc-add-blank-frame" class="iconbtn btn btn-outline-success"></button>
+
+            <!-- Copy Frame -->
+            <button type="button" id="fc-add-copy-frame" class="iconbtn btn btn-outline-success"></button>
+
+            <!-- Remove Frame -->
+            <button type="button" id="fc-remove-frame" class="iconbtn btn btn-outline-danger"></button>
+        </span>
+
+        <!-- Frame Viewer-->
+        <span id="frame-view-container" class="col-10">
+
+        </span>
+    </div>
+</footer>
+
+<!-- Modal Windows -->
+<!-- Save Animation -->
+<div class="modal fade" id="am-save-animation-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Save Animation</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Save Destination (File, Server) -->
+                <div class="form-group">
+                    <!-- To File -->
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="am-save-animation-modal-tofile" class="form-check-input" name="saveDest" value="toFile" checked>
+                        <label class="form-check-label" for="am-save-animiation-modal-tofile">To File</label>
+                    </div>
+            
+                    <!-- To Server -->
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="am-save-animation-modal-toserver" class="form-check-input" name="saveDest" value="toServer" disabled>
+                        <label class="form-check-label" for="am-save-animiation-modal-tofile">To Server</label>
+                    </div>
+                    <small class="form-text text-muted">Saving to server coming soon&trade;</small>
+                </div>
+            
+                <!-- Filename -->
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Title</span>
+                    </div>
+                    <input type="text" id="am-save-animation-modal-filename" class="form-control" name="fileName">
+                    <div class="input-group-append">
+                        <button type="button" id="am-save-animation-modal-save" class="btn" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Animation -->
+<div class="modal fade" id="am-load-animation-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Load Animation</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- From File -->
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" id="am-load-animation-modal-loadfile" class="custom-file-input">
+                        <label class="custom-file-label" for="am-load-animation-modal-loadfile">Upload a file...</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button type="button" id="am-load-animation-modal-loadfile-submit" class="btn" data-dismiss="modal">Submit</button>
+                    </div>
+                </div>
+
+                <!-- From Server-->
+                <hr>
+                <p>Loading from server coming soon&trade;</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Object -->
+<div class="modal fade" id="am-save-object-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Save Object</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Save Object form here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Object -->
+<div class="modal fade" id="am-load-object-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Load Object</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Load object form here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Settings -->
+<div class="modal fade" id="am-project-settings-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Project Settings</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Anim Name -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Title</span>
+                    </div>
+                    <input type="text" id="am-project-settings-modal-anim-name" class="form-control">
+                </div>
+
+                <!-- Background Color -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Background</span>
+                    </div>
+                    <input type="color" id="am-project-settings-modal-bg-color" class="form-control" value="#FFFFFF">
+                </div>
+
+                <!-- Frames/Second -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">FPS</span>
+                    </div>
+                    <input type="number" id="am-project-settings-modal-fps" class="form-control">
+                </div>
+
+                <!-- Width -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Width</span>
+                    </div>
+                    <input type="number" id="am-project-settings-modal-width" class="form-control">
+                </div>
+
+                <!-- Height -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Height</span>
+                    </div>
+                    <input type="number" id="am-project-settings-modal-height" class="form-control">
+                </div>
+
+                <button type="button" id="am-project-settings-modal-save" class="btn" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fill/Stroke -->
+<div class="modal fade" id="fill-stroke-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-dark">
+                <h5 class="modal-title">Fill/Stroke</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Fill -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Fill: </span>
+                    </div>
+                    <input type="color" id="fill-stroke-modal-fill-color" class="form-control" value="#000000">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <input type="checkbox" id="fill-stroke-modal-use-fill" checked>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stroke -->
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Stroke: </span>
+                    </div>
+                    <input type="color" id="fill-stroke-modal-stroke-color" class="form-control" value="#FFFFFF">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <input type="checkbox" id="fill-stroke-modal-use-stroke">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Stroke Width: </span>
+                    </div>
+                    <input type="number" id="fill-stroke-modal-stroke-width" class="form-control text-right" value="1" min="1" step=".5">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Boostrap scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+
+<!-- Non-Engine UI Init -->
+<script>
+    function xOverflown(elem) { return (elem.scrollWidth > elem.clientWidth); }
+    function yOverflown(elem) { return (elem.scrollHeight) > elem.clientHeight; }
+
+    $(function() {
+        // Tooltips
+        $('#am-save-animation').tooltip({
+            title:"Save Animation",
+            trigger:"hover",
+            placement:"bottom"
+        });
+
+        $('#am-load-animation').tooltip({
+            title:"Load Animation",
+            trigger:"hover"
+        });
+
+        $('#am-save-object').tooltip({
+            title:"Save Object",
+            trigger:"hover",
+            placement:"bottom"
+        });
+
+        $('#am-load-object').tooltip({
+            title:"Load Object",
+            trigger:"hover",
+            placement:"bottom"
+        });
+
+        $('#am-project-settings').tooltip({
+            title:"Project Settings",
+            trigger:"hover",
+            placement:"bottom"
+        });
+
+        // Disabled for now as these get stuck
+        /*$('#fc-playback-start').tooltip({
+            title:"Play",
+            trigger:"hover manual",
+            placement:"top"
+        });
+
+        $('#fc-playback-stop').tooltip({
+            title:"Stop",
+            trigger:"hover",
+            placement:"top"
+        });*/
+
+        $('#fc-add-blank-frame').tooltip({
+            title:"Add Frame",
+            trigger:"hover",
+            placemet:"top"
+        });
+
+        $('#fc-add-copy-frame').tooltip({
+            title:"Copy Frame",
+            trigger:"hover",
+            placemet:"top"
+        });
+
+        $('#fc-remove-frame').tooltip({
+            title:"Remove Frame",
+            trigger:"hover",
+            placemet:"top"
+        });
+
+        $('#tool-select').tooltip({
+            title:"Select",
+            trigger:"hover",
+            placement:"top"
+        });
+
+        $('#tool-rectangle').tooltip({
+            title:"Rectangle",
+            trigger:"hover",
+            placement:"top"
+        });
+
+        $('#tool-circle').tooltip({
+            title:"Circle",
+            trigger:"hover",
+            placement:"top"
+        });
+
+        $('#tool-path').tooltip({
+            title:"Path",
+            trigger:"hover",
+            placement:"top"
+        });
+
+        $('#fill-stroke').tooltip({
+            title:"Fill/Stroke",
+            trigger:"hover",
+            placement:"top"
+        });
+    });
+</script>
+
+<!-- Client Scripts -->
+<script src="renderEngine/util.js"></script>
+<script src="renderEngine/tools/tool.js"></script>
+<script src="renderEngine/tools/selecttool.js"></script>
+<script src="renderEngine/tools/rectangletool.js"></script>
+<script src="renderEngine/tools/circletool.js"></script>
+<script src="renderEngine/tools/pathtool.js"></script>
+<script src="renderEngine/dom.js"></script>
+<script src="renderEngine/input.js"></script>
+<script src="renderEngine/anim.js"></script>
+<script src="renderEngine/renderer.js"></script>
+<script src="client.js"></script>
+
+</body>
+</html>
