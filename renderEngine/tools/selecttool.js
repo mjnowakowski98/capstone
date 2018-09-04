@@ -17,24 +17,23 @@ class SelectTool extends Tool {
     get isDragging() { return this.m_isDragging; }
 
     handleCanvasMouseDown() {
-        if(this.toolStateString === "toolReady" && this.hasObject && this.testPoint(this.selectedObject)) {
+        var self = this;
+        if(this.toolStateString === "toolReady" && this.hasObject) {
             this.m_timeout = setTimeout(function() {
-                this.m_isDragging = true;
-                console.log("test");
-                this.m_timeout = null;
-                return;
-            }, 500);
+                self.m_isDragging = true;
+                self.m_timeout = null;
+            }, 150);
         }
     }
 
     handleCanvasMouseUp() {
-        if(this.m_timeout) clearTimeout(this.m_timeout);
-
-        if(this.toolStateString === "toolReady" && this.hasObject
-        && this.isDragging) {
-            this.m_isDragging = false;
-            this.toolStateString = "toolCancel";
+        if(this.m_timeout) {
+            clearTimeout(this.m_timeout);
+            return;
         }
+
+        if(this.toolStateString === "toolReady" && this.hasObject && this.isDragging)
+            this.m_isDragging = false;
     }
 
     handleCanvasClick() {
@@ -42,9 +41,12 @@ class SelectTool extends Tool {
         var frameObjects = renderer.anim.frames[renderer.animFrame].onScreen;
 
         for(var i in frameObjects) {
-            if(this.testPoint(frameObjects[i]))
+            if(this.testPoint(frameObjects[i])) {
                 this.selectObject(frameObjects[i]);
+                return;
+            }
         }
+        this.selectObject(null);
     }
 
     selectObject(obj) {
@@ -73,7 +75,6 @@ class SelectTool extends Tool {
     }
 
     onToolCancel() {
-        this.selectObject(null);
         this.toolStateString = "toolWaiting";
     }
 
@@ -87,7 +88,6 @@ class SelectTool extends Tool {
         }
 
         if(this.isDragging) {
-            console.log("test");
             this.selectedObject.xPos = Input.mouseCurrent.x;
             this.selectedObject.yPos = Input.mouseCurrent.y;
         }

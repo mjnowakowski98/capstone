@@ -33,6 +33,7 @@ class RectangleTool extends Tool {
 
         renderer.shadowShape = null;
         this.toolStateString = "toolWaiting";
+        dom.currentTool = "none";
     }
 
     onToolCancel() {

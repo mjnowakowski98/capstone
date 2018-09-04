@@ -28,6 +28,7 @@ class CircleTool extends Tool {
         renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", objRef, Input.mouseHoldStart.x, Input.mouseHoldStart.y);
 
         this.toolStateString = "toolWaiting";
+        dom.currentTool = "none";
     }
 
     onToolCancel() {

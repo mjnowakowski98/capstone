@@ -40,6 +40,7 @@ class PathTool extends Tool {
         renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", objRef);
 
         this.toolStateString = "toolWaiting";
+        dom.currentTool = "none";
     }
 
     onToolCancel() {

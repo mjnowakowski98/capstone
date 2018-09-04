@@ -61,6 +61,8 @@ class Renderer {
             if(this.animFrame + speed < this.anim.numFrames) this.m_animFrame += speed;
             else this.m_animFrame = 0;
         } else this.m_animFrame = this.anim.numFrames - 1;
+
+        dom.getToolByName("selectTool").ref.selectObject(null);
     }
 
     // Because rAF doesn't like method callbacks

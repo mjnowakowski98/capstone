@@ -48,6 +48,12 @@ class Tool {
         return !event.defaultPrevented;
     }
 
+    static get fillColor() { return Tool.s_fillColor; }
+    static set fillColor(newFill) {
+        Tool.s_fillColor = newFill;
+        
+    }
+
     get toolState() { return this.m_currentState; }
     get toolStateString() { return this.m_currentStateString; }
     set toolStateString(newState) {
@@ -97,7 +103,7 @@ class Tool {
     onFrame() {}
 }
 
-Tool.fillColor = "#000000";
+Tool.s_fillColor = "#000000";
 Tool.strokeColor = "#FFFFFF";
 Tool.useFill = true;
 Tool.useStroke = false;

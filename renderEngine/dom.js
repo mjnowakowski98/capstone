@@ -33,6 +33,7 @@ class DOM {
     }
 
     // Accessor/Mutator for tool controller
+    get tools() { return this.m_tools; }
     get currentTool() { return this.m_currentTool; }
     set currentTool(toolName) {
         if(this.currentTool) // Tell current tool it can't finish
@@ -41,14 +42,28 @@ class DOM {
         // Match passed in toolname to known tools
         var foundTool = false;
         for(var i in this.m_tools) {
-            if(this.m_tools[i].name === toolName) {
-                this.m_currentTool = this.m_tools[i];
+            if(this.tools[i].name === toolName) {
+                this.m_currentTool = this.tools[i];
                 foundTool = true;
             }
         }
         // Check if found
-        if(!foundTool) console.error("Cannot set currentTool: " + toolName);
-        else this.currentTool.ref.toolStateString = "toolReady"; // Tell tool it's selected
+        if (!foundTool) console.error("Cannot set currentTool: " + toolName);
+        else {
+            this.currentTool.ref.toolStateString = "toolReady"; // Tell tool it's selected
+
+            if(this.currentTool.element) {
+                this.currentTool.element.classList.add("btn-primary");
+                this.currentTool.element.classList.remove("btn-outline-primary");
+            }
+
+            for (var j in this.tools) {
+                if (this.tools[j] !== this.currentTool && this.tools[j].element) {
+                    this.tools[j].element.classList.remove("btn-primary");
+                    this.tools[j].element.classList.add("btn-outline-primary");
+                }
+            }
+        }
     }
 
     getToolByName(name) {
@@ -128,6 +143,7 @@ class DOM {
 
         for(let i in renderer.anim.frames) {
             let newFrame = document.createElement("div");
+            newFrame.appendChild(document.createTextNode(i));
             newFrame.id = "frame" + i;
             newFrame.classList.add("frame-box", "d-inline-block", "bg-light", "my-1", "mr-1", "btn",  "btn-outline-primary");
             newFrame.addEventListener("click", function() { renderer.scrubFrames(i - renderer.animFrame); });
@@ -136,16 +152,23 @@ class DOM {
     }
 
     initListeners() { // Initialize event listeners for DOM actions
+        // Initialize toolbox
         for(var i = 0; i < this.m_tools.length; i++) {
             let toolName = this.m_tools[i].name;
             let elem = this.m_tools[i].element;
             if(elem) elem.addEventListener("click", function() {
-                dom.currentTool = toolName;
-                dom.currentTool.toolStateString = "toolReady";
+                if(dom.currentTool !== dom.getToolByName(toolName)) {
+                    dom.currentTool = toolName;
+                    dom.currentTool.ref.toolStateString = "toolReady";
+                } else dom.currentTool = "none";
             });
         }
 
-        addEventListener("frame", function() { dom.currentTool.ref.onFrame(); });
+        // Editor Frame
+        addEventListener("frame", function() {
+            for(var i in dom.tools)
+                dom.tools[i].ref.onFrame();
+        });
 
         // Change fill/stroke settings
         var fillSelector = document.getElementById("fill-stroke-modal-fill-color");

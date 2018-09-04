@@ -9,5 +9,8 @@ addEventListener("load", function() {
     renderer.anim = new Anim();
 
     dom.initListeners(); // Initialize DOM event listeners
+    dom.generateFrameView();
+    dom.generateObjectViewDrawable();
+
     Renderer.render(renderer); // Start rendering loop
 });
