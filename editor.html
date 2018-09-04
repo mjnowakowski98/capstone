@@ -86,7 +86,7 @@
         <!-- Playback Start/Stop -->
         <span class="col-2 py-1 d-inline-flex justify-content-around border-right">
             <button type="button" id="fc-playback-start" class="iconbtn btn btn-outline-success"></button>
-            <button type="button" id="fc-playback-stop" class="iconbtn btn btn-outline-danger" disabled></button>
+            <button type="button" id="fc-playback-stop" class="iconbtn btn btn-outline-danger"></button>
         </span>
 
         <!-- Toolbox -->
@@ -391,8 +391,7 @@
             placement:"bottom"
         });
 
-        // Disabled for now as these get stuck
-        /*$('#fc-playback-start').tooltip({
+        $('#fc-playback-start').tooltip({
             title:"Play",
             trigger:"hover manual",
             placement:"top"
@@ -402,7 +401,7 @@
             title:"Stop",
             trigger:"hover",
             placement:"top"
-        });*/
+        });
 
         $('#fc-add-blank-frame').tooltip({
             title:"Add Frame",

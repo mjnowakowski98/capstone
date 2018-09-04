@@ -194,10 +194,11 @@ class Anim {
             var oldFrame = this.frames[frameNdx].onScreen;
 
             for(var i in oldFrame)
-                newFrame[i] = oldFrame[i];
+                newFrame[i] = Object.assign({}, oldFrame[i]);
         }
 
         renderer.scrubFrames(1);
+        dom.generateFrameView();
     }
 
     removeFrame(frameNdx) {
@@ -211,6 +212,7 @@ class Anim {
         
         renderer.scrubFrames(-1);
         this.frames.splice(frameNdx, 1);
+        dom.generateFrameView();
     }
 
     addObject(newObject) {

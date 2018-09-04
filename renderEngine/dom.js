@@ -1,10 +1,3 @@
-// This is the biggest hacky POS in the project,
-// unfortunately almost everything is on this drug
-// 8/28/18: Too late to restructure this steamy dump
-    // I guess the pile's gonna get bigger for now
-
-// This is why we design things before coding big projects
-
 class DOM {
     constructor() {
         // Register initial tools
@@ -125,7 +118,7 @@ class DOM {
             newDiv.appendChild(newP);
             container.appendChild(newDiv);
 
-            newDiv.addEventListener("click", function() { console.log(obj); });
+            newDiv.addEventListener("click", function() { this.getToolByName("selectTool").ref.selectObject(obj); });
         }
     }
 
@@ -215,24 +208,14 @@ class DOM {
             dom.currentTool.ref.handleCanvasMouseUp();
         });
 
-        /*// Player controls
-        this.tbPlayback.addEventListener("click", function() {
-            renderer.playbackMode = true;
-            dom.tbPlayback.disabled = true;
-            dom.tbPlaybackStop.disabled = false;
-        });
+        // Player controls
+        document.getElementById("fc-playback-start").addEventListener("click", function() { renderer.playbackMode = true; });
 
-        this.m_tbPlaybackStop.addEventListener("click", function() {
-            renderer.playbackMode = false;
-            dom.tbPlayback.disabled = false;
-            dom.tbPlaybackStop.disabled = true;
-        });
+        document.getElementById("fc-playback-stop").addEventListener("click", function() { renderer.playbackMode  = false; });
 
-        this.addBlankFrame.addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame); });
-        this.addCopyFrame.addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame, true); });
-        this.removeFrame.addEventListener("click", function() { renderer.anim.removeFrame(renderer.animFrame); });
-
-        */
+        document.getElementById("fc-add-blank-frame").addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame); });
+        document.getElementById("fc-add-copy-frame").addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame, true); });
+        document.getElementById("fc-remove-frame").addEventListener("click", function() { renderer.anim.removeFrame(renderer.animFrame); });
     }
 
     loadAnimationFile() { // Read an animation file

@@ -11,6 +11,7 @@ class Renderer {
         this.m_elapsed; // Time since last frame
 
         this.m_animFrame = 0; // Current animation frame
+        this.m_animFramePrePlay = 0;
 
         this.m_updateRequest = null; // rAF frameRequest
 
@@ -33,8 +34,10 @@ class Renderer {
     get playbackMode() { return this.m_playbackMode; }
     set playbackMode(newMode) {
         this.m_playbackMode = newMode;
-        if(this.playbackMode === true) // Set then to start of playback
-            this.m_then = performance.now();   
+        if(this.playbackMode === true) {// Set then to start of playback
+            this.m_then = performance.now();
+            this.m_animFramePrePlay = this.animFrame;
+        } else this.m_animFrame = this.m_animFramePrePlay;
     }
 
     // Playback FPS
