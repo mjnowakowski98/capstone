@@ -138,6 +138,7 @@ class Anim {
     
         ctx.beginPath();
         ctx.translate(xPos, yPos);
+        if(shape.scale) ctx.scale(shape.scale, shape.scale);
 
         // Draw supported shapes
         switch(shape.shape) {
@@ -210,8 +211,8 @@ class Anim {
             return;
         }
         
-        renderer.scrubFrames(-1);
         this.frames.splice(frameNdx, 1);
+        renderer.scrubFrames(-1);
         dom.generateFrameView();
     }
 

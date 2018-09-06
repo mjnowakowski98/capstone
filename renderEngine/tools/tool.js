@@ -12,7 +12,7 @@ class Tool {
         this.m_currentState = 0;
         this.m_currentStateString = this.m_states[this.m_currentState];
 
-        this.m_toolName = "";
+        this.m_toolName = "none";
 
         this.addEventListener("toolstatechange", this.onToolStateChange);
         this.addEventListener("toolwaiting", this.onToolWaiting);
@@ -65,7 +65,7 @@ class Tool {
         } else console.error("Attempt to set invalid state'" + newState + "' on " + this.toolName);
     }
 
-    get toolName() { return this.m_toolName; }
+    get name() { return this.m_toolName; }
 
     onToolStateChange() {
         switch(this.toolStateString) {

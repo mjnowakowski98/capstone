@@ -3,30 +3,29 @@ class DOM {
         // Register initial tools
         this.m_tools = [
             {
-                "name":"none",
                 "ref":new Tool(),
                 "element":null
             },
             {
-                "name":"selectTool",
                 "ref":new SelectTool(),
                 "element":document.getElementById("tool-select")
             },
             {
-                "name":"rectangleTool",
                 "ref":new RectangleTool(),
                 "element":document.getElementById("tool-rectangle")
             },
             {
-                "name":"circleTool",
                 "ref":new CircleTool(),
                 "element":document.getElementById("tool-circle")
             },
             {
-                "name":"pathTool",
                 "ref":new PathTool(),
                 "element":document.getElementById("tool-path")
-            }            
+            },
+            {
+                "ref":new DeleteTool(),
+                "element":document.getElementById("tool-delete")
+            }
         ];
 
         this.currentTool = "none"; // Tool controller
@@ -36,52 +35,54 @@ class DOM {
     get tools() { return this.m_tools; }
     get currentTool() { return this.m_currentTool; }
     set currentTool(toolName) {
-        if(this.currentTool) // Tell current tool it can't finish
-            this.currentTool.toolStateString = "toolCancel";
-
         // Match passed in toolname to known tools
         var foundTool = false;
         for(var i in this.m_tools) {
-            if(this.tools[i].name === toolName) {
+            if(this.tools[i].ref.name === toolName) {
                 this.m_currentTool = this.tools[i];
                 foundTool = true;
             }
         }
         // Check if found
-        if (!foundTool) console.error("Cannot set currentTool: " + toolName);
+        if (!foundTool && toolName !== "none") console.error("Cannot set currentTool: " + toolName);
         else {
+            if(this.currentTool) // Tell current tool it can't finish
+                this.currentTool.toolStateString = "toolCancel";
+
             this.currentTool.ref.toolStateString = "toolReady"; // Tell tool it's selected
 
+            // Set tool background as green
             if(this.currentTool.element) {
-                this.currentTool.element.classList.add("btn-primary");
+                this.currentTool.element.classList.add("btn-success");
                 this.currentTool.element.classList.remove("btn-outline-primary");
             }
 
+            // Set other tools to transparent
             for (var j in this.tools) {
                 if (this.tools[j] !== this.currentTool && this.tools[j].element) {
-                    this.tools[j].element.classList.remove("btn-primary");
+                    this.tools[j].element.classList.remove("btn-success");
                     this.tools[j].element.classList.add("btn-outline-primary");
                 }
             }
         }
     }
 
+    toggleTools(state = null) {
+        var tools = document.getElementsByClassName("tool");
+        for (var i = 0; i < tools.length; i++) {
+            if(state === null) tools[i].disabled = !tools[i].disabled;
+            else if(state) tools[i].disabled = false;
+            else tools[i].disabled = true;
+        }
+    }
+
     getToolByName(name) {
         for(var i in this.m_tools) {
-            if(this.m_tools[i].name === name)
+            if(this.m_tools[i].ref.name === name)
                 return this.m_tools[i];
         }
         return null;
     }
-
-    /*updateUI() {
-        var animTitle = document.getElementById("anim-title");
-        animTitle.innerHTML = renderer.anim.animName;
-        if(animTitle.scrollWidth > animTitle.clientWidth) animTitle.classList.add("marquee");
-        else animTitle.classList.remove("marquee");
-
-        
-    }*/
 
     generateObjectViewDrawable() {
         var container = document.getElementById("object-list-container");
@@ -151,10 +152,17 @@ class DOM {
         }
     }
 
+    setTitleMarquee() {
+        var animTitle = document.getElementById("anim-title");
+        animTitle.innerHTML = renderer.anim.animName;
+        if(animTitle.scrollWidth > animTitle.clientWidth) animTitle.classList.add("marquee");
+        else animTitle.classList.remove("marquee");
+    }
+
     initListeners() { // Initialize event listeners for DOM actions
         // Initialize toolbox
         for(var i = 0; i < this.m_tools.length; i++) {
-            let toolName = this.m_tools[i].name;
+            let toolName = this.m_tools[i].ref.name;
             let elem = this.m_tools[i].element;
             if(elem) elem.addEventListener("click", function() {
                 if(dom.currentTool !== dom.getToolByName(toolName)) {
@@ -168,6 +176,10 @@ class DOM {
         addEventListener("frame", function() {
             for(var i in dom.tools)
                 dom.tools[i].ref.onFrame();
+        });
+
+        addEventListener("resize", function() {
+            dom.setTitleMarquee();
         });
 
         // Change fill/stroke settings
@@ -207,6 +219,7 @@ class DOM {
             renderer.anim.framesPerSecond = document.getElementById("am-project-settings-modal-fps").value;
             renderer.anim.width = document.getElementById("am-project-settings-modal-width").value;
             renderer.anim.height = document.getElementById("am-project-settings-modal-height").value;
+            dom.setTitleMarquee();
         });
 
         // Canvas events
@@ -249,6 +262,8 @@ class DOM {
             // Replace current animation
             var animFile = JSON.parse(fr.result);
             renderer.anim = new Anim(animFile);
+            dom.generateFrameView();
+            dom.generateObjectViewDrawable();
         });
     }
 

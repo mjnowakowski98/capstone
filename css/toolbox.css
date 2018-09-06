@@ -2,5 +2,5 @@
 #tool-rectangle { background-image:url("../icons/toolbox/rectangle.svg"); }
 #tool-circle { background-image:url("../icons/toolbox/circle.svg"); }
 #tool-path { background-image:url("../icons/toolbox/pathtool.svg"); }
-#tool-object-properties { background-image:url("../icons/toolbox/objectproperties.svg"); }
+#tool-delete { background-image:url("../icons/toolbox/deletetool.svg"); }
 #fill-stroke { background:radial-gradient(#000000 40%, #FFFFFF 60%); }

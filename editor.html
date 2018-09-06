@@ -29,10 +29,10 @@
             <button type="button" id="am-load-animation" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-load-animation-modal"></button>
 
             <!-- Save Object -->
-            <button type="button" id="am-save-object" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-save-object-modal" disabled></button>
+            <button type="button" id="am-save-object" class="tool iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-save-object-modal"></button>
 
             <!-- Load Object -->
-            <button type="button" id="am-load-object" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-load-object-modal" disabled></button>
+            <button type="button" id="am-load-object" class="tool iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-load-object-modal"></button>
 
             <!-- Project Settings -->
             <button type="button" id="am-project-settings" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#am-project-settings-modal"></button>
@@ -92,27 +92,21 @@
         <!-- Toolbox -->
         <span class="col-10 py-1">
             <!-- Select Tool -->
-            <button type="button" id="tool-select" class="iconbtn btn btn-outline-primary"></button>
+            <button type="button" id="tool-select" class="tool iconbtn btn btn-outline-primary"></button>
 
             <!-- Rectangle Tool -->
-            <button type="button" id="tool-rectangle" class="iconbtn btn btn-outline-primary"></button>
+            <button type="button" id="tool-rectangle" class="tool iconbtn btn btn-outline-primary"></button>
 
             <!-- Circle Tool -->
-            <button type="button" id="tool-circle" class="iconbtn btn btn-outline-primary"></button>
+            <button type="button" id="tool-circle" class="tool iconbtn btn btn-outline-primary"></button>
 
             <!-- Path Tool -->
-            <button type="button" id="tool-path" class="iconbtn btn btn-outline-primary"></button>
+            <button type="button" id="tool-path" class="tool iconbtn btn btn-outline-primary"></button>
 
-            <!-- Object Properties -->
-            <button type="button" id="tool-object-properties" class="iconbtn btn btn-outline-primary" data-toggle="dropdown"></button>
-            <div class="dropdown-menu">
-                <button type="button" class="dropdown-item">Name</button>
-                <button type="button" class="dropdown-item">Fill/Stroke</button>
-                <button type="button" class="dropdown-item">Scale</button>
-                <button type="button" class="dropdown-item">Delete</button>
-            </div>
+            <!-- Delete Tool -->
+            <button type="button" id="tool-delete" class="tool iconbtn btn btn-outline-primary"></button>
 
-            <button type="button" id="fill-stroke" class="iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#fill-stroke-modal"></button>
+            <button type="button" id="fill-stroke" class=" tool iconbtn btn btn-outline-primary" data-toggle="modal" data-target="#fill-stroke-modal"></button>
         </span>
     </div>
 
@@ -121,13 +115,13 @@
         <!-- Frame Controls-->
         <span class="col-2 py-1 d-inline-flex justify-content-around border-right">
             <!-- Add Blank Frame -->
-            <button type="button" id="fc-add-blank-frame" class="iconbtn btn btn-outline-success"></button>
+            <button type="button" id="fc-add-blank-frame" class="tool iconbtn btn btn-outline-success"></button>
 
             <!-- Copy Frame -->
-            <button type="button" id="fc-add-copy-frame" class="iconbtn btn btn-outline-success"></button>
+            <button type="button" id="fc-add-copy-frame" class="tool iconbtn btn btn-outline-success"></button>
 
             <!-- Remove Frame -->
-            <button type="button" id="fc-remove-frame" class="iconbtn btn btn-outline-danger"></button>
+            <button type="button" id="fc-remove-frame" class="tool iconbtn btn btn-outline-danger"></button>
         </span>
 
         <!-- Frame Viewer-->
@@ -268,7 +262,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Background</span>
                     </div>
-                    <input type="color" id="am-project-settings-modal-bg-color" class="form-control" value="#FFFFFF">
+                    <input type="color" id="am-project-settings-modal-bg-color" class="tool form-control" value="#FFFFFF">
                 </div>
 
                 <!-- Frames/Second -->
@@ -276,7 +270,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">FPS</span>
                     </div>
-                    <input type="number" id="am-project-settings-modal-fps" class="form-control">
+                    <input type="number" id="am-project-settings-modal-fps" class="tool form-control">
                 </div>
 
                 <!-- Width -->
@@ -284,7 +278,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Width</span>
                     </div>
-                    <input type="number" id="am-project-settings-modal-width" class="form-control">
+                    <input type="number" id="am-project-settings-modal-width" class="tool form-control">
                 </div>
 
                 <!-- Height -->
@@ -292,7 +286,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Height</span>
                     </div>
-                    <input type="number" id="am-project-settings-modal-height" class="form-control">
+                    <input type="number" id="am-project-settings-modal-height" class="tool form-control">
                 </div>
 
                 <button type="button" id="am-project-settings-modal-save" class="btn" data-dismiss="modal">Save</button>
@@ -445,6 +439,12 @@
             placement:"top"
         });
 
+        $('#tool-delete').tooltip({
+            title:"Delete",
+            trigger:"hover",
+            placement:"top"
+        });
+
         $('#fill-stroke').tooltip({
             title:"Fill/Stroke",
             trigger:"hover",
@@ -460,6 +460,7 @@
 <script src="renderEngine/tools/rectangletool.js"></script>
 <script src="renderEngine/tools/circletool.js"></script>
 <script src="renderEngine/tools/pathtool.js"></script>
+<script src="renderEngine/tools/deletetool.js"></script>
 <script src="renderEngine/dom.js"></script>
 <script src="renderEngine/input.js"></script>
 <script src="renderEngine/anim.js"></script>

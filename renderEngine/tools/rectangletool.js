@@ -31,7 +31,6 @@ class RectangleTool extends Tool {
         var y = (newObj.height / 2) + Input.mouseHoldStart.y;
         renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", objRef, x, y);
 
-        renderer.shadowShape = null;
         this.toolStateString = "toolWaiting";
         dom.currentTool = "none";
     }

@@ -37,7 +37,11 @@ class Renderer {
         if(this.playbackMode === true) {// Set then to start of playback
             this.m_then = performance.now();
             this.m_animFramePrePlay = this.animFrame;
-        } else this.m_animFrame = this.m_animFramePrePlay;
+            dom.toggleTools(false);
+        } else {
+            this.m_animFrame = this.m_animFramePrePlay
+            dom.toggleTools(true);
+        };
     }
 
     // Playback FPS
@@ -62,7 +66,7 @@ class Renderer {
             else this.m_animFrame = 0;
         } else this.m_animFrame = this.anim.numFrames - 1;
 
-        dom.getToolByName("selectTool").ref.selectObject(null);
+        dom.getToolByName("Select").ref.selectObject(null);
     }
 
     // Because rAF doesn't like method callbacks
