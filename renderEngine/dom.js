@@ -1,3 +1,5 @@
+// This is still a steamy POS
+
 class DOM {
     constructor() {
         // Register initial tools
@@ -85,7 +87,7 @@ class DOM {
     }
 
     generateObjectViewDrawable() {
-        var container = document.getElementById("object-list-container");
+        var container = document.getElementById("object-list-drawable-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
         for(var i in renderer.anim.drawable) {
@@ -109,7 +111,7 @@ class DOM {
     }
 
     generateObjectViewFrame() {
-        var container = document.getElementById("object-list-container");
+        var container = document.getElementById("object-list-frame-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
         for(var i in renderer.anim.frames[renderer.animFrame].onScreen) {
