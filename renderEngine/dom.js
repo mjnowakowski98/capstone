@@ -37,6 +37,9 @@ class DOM {
     get tools() { return this.m_tools; }
     get currentTool() { return this.m_currentTool; }
     set currentTool(toolName) {
+        if(this.getToolByName(toolName) === this.currentTool)
+            toolName = "none";
+            
         // Match passed in toolname to known tools
         var foundTool = false;
         for(var i in this.m_tools) {

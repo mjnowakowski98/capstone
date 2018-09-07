@@ -11,6 +11,7 @@ class DeleteTool extends Tool {
             renderer.anim.frames[renderer.animFrame].onScreen.splice(i, 1);
             selectTool.selectObject(null);
         }
+        dom.generateObjectViewFrame();
         dom.currentTool = "none";
     }
 

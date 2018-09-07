@@ -67,6 +67,7 @@ class Renderer {
         } else this.m_animFrame = this.anim.numFrames - 1;
 
         dom.getToolByName("Select").ref.selectObject(null);
+        dom.generateObjectViewFrame();
     }
 
     // Because rAF doesn't like method callbacks

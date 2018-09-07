@@ -84,7 +84,6 @@ class SelectTool extends Tool {
             shadow.fill = null;
             shadow.stroke = "#007BFF";
             shadow.strokeWidth = 3;
-            shadow.scale = 1.2;
             Anim.drawShape(renderer.anim.ctx, shadow, this.selectedObject.xPos, this.selectedObject.yPos)
         }
 

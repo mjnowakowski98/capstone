@@ -220,15 +220,20 @@ class Anim {
         var newLength = 0;
         if (newObject.drawable) newLength = this.m_objects.drawable.push(newObject);
         else newLength = this.m_objects.container.push(newObject);
+
+        dom.generateObjectViewDrawable();
         return newLength - 1;
     }
 
     addObjectToFrame(frameNdx, objCat, objRef, xPos = 0, yPos = 0) {
         var tmp = new ObjectDesc(objCat, objRef, xPos, yPos);
         this.frames[frameNdx].onScreen.push(tmp);
+
+        dom.generateObjectViewFrame();
     }
 
     clearFrameObjects(frameNdx) {
         this.frames[frameNdx].onScreen = new Array();
+        dom.generateObjectViewFrame();
     }
 }
