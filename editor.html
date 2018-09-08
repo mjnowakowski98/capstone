@@ -229,7 +229,34 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Save Object form here</p>
+                <!-- Save Destination (File, Server) -->
+                <div class="form-group">
+                    <!-- To File -->
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="am-save-object-modal-tofile" class="form-check-input" name="saveDest" value="toFile"
+                            checked>
+                        <label class="form-check-label" for="am-save-object-modal-tofile">To File</label>
+                    </div>
+            
+                    <!-- To Server -->
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="am-save-object-modal-toserver" class="form-check-input" name="saveDest" value="toServer"
+                            disabled>
+                        <label class="form-check-label" for="am-save-object-modal-tofile">To Server</label>
+                    </div>
+                    <small class="form-text text-muted">Saving to server coming soon&trade;</small>
+                </div>
+            
+                <!-- Filename -->
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Title</span>
+                    </div>
+                    <input type="text" id="am-save-object-modal-filename" class="form-control" name="fileName">
+                    <div class="input-group-append">
+                        <button type="button" id="am-save-object-modal-save" class="btn" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

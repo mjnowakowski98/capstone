@@ -4,6 +4,8 @@ class PathTool extends Tool {
         this.m_toolName = "Path";
 
         this.m_points = null;
+
+        this.m_endPath;
     }
 
     handleCanvasClick() {
@@ -16,14 +18,15 @@ class PathTool extends Tool {
 
     onToolActive() {
         var self = this;
-        addEventListener("keyup", function endPath(evt) {
+        this.m_endPath = function(evt) {
             if(evt.keyCode === 13)
                 self.toolStateString = "toolEnding";
-        });
+        }
+        addEventListener("keyup", this.m_endPath);
     }
 
     onToolEnding() {
-        removeEventListener("keyup", this.endPath); // Remove tool finalize listener
+        removeEventListener("keyup", this.m_endPath); // Remove tool finalize listener
 
         // Draw dummy object to test points in path
         var newObj = new Drawable("path", "Path");
@@ -106,12 +109,11 @@ class PathTool extends Tool {
         renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", objRef, center.x, center.y);
 
         // End tool
-        this.toolStateString = "toolWaiting";
         dom.currentTool = "none";
     }
 
     onToolCancel() {
-        removeEventListener("keyup", this.endPath);
+        removeEventListener("keyup", this.m_endPath);
         this.toolStateString = "toolWaiting";
     }
 

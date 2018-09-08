@@ -44,6 +44,9 @@ class DOM {
         var foundTool = false;
         for(var i in this.m_tools) {
             if(this.tools[i].ref.name === toolName) {
+                if(this.currentTool) // Tell current tool it can't finish
+                    this.currentTool.ref.toolStateString = "toolCancel";
+
                 this.m_currentTool = this.tools[i];
                 foundTool = true;
             }
@@ -51,9 +54,6 @@ class DOM {
         // Check if found
         if (!foundTool && toolName !== "none") console.error("Cannot set currentTool: " + toolName);
         else {
-            if(this.currentTool) // Tell current tool it can't finish
-                this.currentTool.toolStateString = "toolCancel";
-
             this.currentTool.ref.toolStateString = "toolReady"; // Tell tool it's selected
 
             // Set tool background as green
@@ -93,7 +93,7 @@ class DOM {
         var container = document.getElementById("object-list-drawable-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
-        for(var i in renderer.anim.drawable) {
+        for(let i in renderer.anim.drawable) {
             let obj = renderer.anim.drawable[i];
             let newDiv = document.createElement("div");
             newDiv.classList.add("object-list-item");
@@ -110,6 +110,13 @@ class DOM {
             newP.classList.add("my-0");
             newDiv.appendChild(newP);
             container.appendChild(newDiv);
+
+            newDiv.addEventListener("click", function() {
+                var c = renderer.anim.ctx.canvas;
+                var scrCenterX = c.scrollLeft + (c.width / 2);
+                var scrCenterY = c.scrollTop + (c.height / 2);
+                renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", i, scrCenterX, scrCenterY);
+            });
         }
     }
 
@@ -117,7 +124,7 @@ class DOM {
         var container = document.getElementById("object-list-frame-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
-        for(var i in renderer.anim.frames[renderer.animFrame].onScreen) {
+        for(let i in renderer.anim.frames[renderer.animFrame].onScreen) {
             let obj = renderer.anim.frames[renderer.animFrame].onScreen[i];
             if(obj.objCat !== "drawable") continue;
 
@@ -139,7 +146,7 @@ class DOM {
             newDiv.appendChild(newP);
             container.appendChild(newDiv);
 
-            newDiv.addEventListener("click", function() { this.getToolByName("selectTool").ref.selectObject(obj); });
+            newDiv.addEventListener("click", function() { dom.getToolByName("Select").ref.selectObject(obj); });
         }
     }
 
