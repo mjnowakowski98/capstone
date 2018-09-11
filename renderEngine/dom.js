@@ -276,7 +276,16 @@ class DOM {
             renderer.anim = new Anim(animFile);
             dom.generateFrameView();
             dom.generateObjectViewDrawable();
+            dom.generateObjectViewFrame();
         });
+    }
+
+    loadAnimationFile(fileText) {
+        let animFile = JSON.parse(fileText);
+        renderer.anim = new Anim(animFile)
+        this.generateFrameView();
+        this.generateObjectViewDrawable();
+        this.generateObjectViewFrame();
     }
 
     loadObjectFile() { // Read an object file

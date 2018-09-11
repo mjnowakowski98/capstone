@@ -39,6 +39,6 @@ class Utilities { // Small functions for common actions
     }
 
     static quickLoad() {
-        DOM.loadAnimationFile()
+        dom.loadAnimationFile(Cookies.get("animTempSave"));
     }
 }
