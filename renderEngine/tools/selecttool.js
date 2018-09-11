@@ -7,6 +7,8 @@ class SelectTool extends Tool {
         this.m_object = null;
 
         this.m_isDragging = false;
+        this.m_dragDistX = 0;
+        this.m_dragDistY = 0;
 
         this.m_timeout = null;
     }
@@ -23,6 +25,8 @@ class SelectTool extends Tool {
             this.m_timeout = setTimeout(function() {
                 self.m_isDragging = true;
                 self.m_timeout = null;
+                self.m_dragDistX = Input.mouseHoldStart.x - self.selectedObject.xPos;
+                self.m_dragDistY = Input.mouseHoldStart.y - self.selectedObject.yPos;
             }, 150);
         }
     }
@@ -89,8 +93,8 @@ class SelectTool extends Tool {
         }
 
         if(this.isDragging) {
-            this.selectedObject.xPos = Input.mouseCurrent.x;
-            this.selectedObject.yPos = Input.mouseCurrent.y;
+            this.selectedObject.xPos = Input.mouseCurrent.x - this.m_dragDistX;
+            this.selectedObject.yPos = Input.mouseCurrent.y - this.m_dragDistY;
         }
     }
 }
