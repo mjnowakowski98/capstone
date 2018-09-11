@@ -56,7 +56,13 @@ class Tool {
     static get fillColor() { return Tool.s_fillColor; }
     static set fillColor(newFill) {
         Tool.s_fillColor = newFill;
-        
+        dom.setFillStrokeColor();
+    }
+
+    static get strokeColor() { return Tool.s_strokeColor; }
+    static set strokeColor(newStroke) {
+        Tool.s_strokeColor = newStroke;
+        dom.setFillStrokeColor();
     }
 
     get toolState() { return this.m_currentState; }
@@ -113,7 +119,7 @@ class Tool {
 }
 
 Tool.s_fillColor = "#000000";
-Tool.strokeColor = "#FFFFFF";
+Tool.s_strokeColor = "#FFFFFF";
 Tool.useFill = true;
 Tool.useStroke = false;
 Tool.strokeWidth = 1;

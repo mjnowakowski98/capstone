@@ -171,6 +171,11 @@ class DOM {
         else animTitle.classList.remove("marquee");
     }
 
+    setFillStrokeColor() {
+        let fs = document.getElementById("fill-stroke");
+        fs.style.background = "radial-gradient(" + Tool.fillColor + " 40%, " + Tool.strokeColor +" 60%)";
+    }
+
     initListeners() { // Initialize event listeners for DOM actions
         // Initialize toolbox
         for(var i = 0; i < this.m_tools.length; i++) {
