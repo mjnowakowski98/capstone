@@ -18,7 +18,8 @@ class SelectTool extends Tool {
 
     handleCanvasMouseDown() {
         var self = this;
-        if(this.toolStateString === "toolReady" && this.hasObject) {
+        if(this.toolStateString === "toolReady" && this.hasObject
+            && this.testPoint(this.selectedObject, Input.mouseHoldStart)) {
             this.m_timeout = setTimeout(function() {
                 self.m_isDragging = true;
                 self.m_timeout = null;

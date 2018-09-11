@@ -14,6 +14,11 @@ class Tool {
 
         this.m_toolName = "none";
 
+        this.m_escapeTool = function(evt) {
+            if(evt.keyCode === 27)
+                dom.currentTool = "none";
+        };
+
         this.addEventListener("toolstatechange", this.onToolStateChange);
         this.addEventListener("toolwaiting", this.onToolWaiting);
         this.addEventListener("toolready", this.onToolReady);
@@ -90,8 +95,12 @@ class Tool {
         }
     }
 
-    onToolWaiting() {}
-    onToolReady() {}
+    onToolWaiting() {
+        removeEventListener("keyup", this.m_escapeTool);
+    }
+    onToolReady() {
+        addEventListener("keyup", this.m_escapeTool);
+    }
     onToolActive() {}
     onToolEnding() {}
     onToolCancel() {}

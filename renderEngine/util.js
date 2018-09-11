@@ -5,6 +5,34 @@ class Utilities { // Small functions for common actions
         return Math.sqrt(x2 + y2);
     }
 
+    static getBoundingCenter(obj) {
+        let center = new Coord(0, 0);
+        switch(obj.shape) {
+            case "rect":
+                center.x = obj.width / 2;
+                center.y = obj.height / 2;
+                break;
+            case "path":
+                let top = obj.points[0].y;
+                let bottom = obj.points[0].y;
+                let left = obj.points[0].x;
+                let right = obj.points[0].x;
+                for (let i = 1; i < obj.points.length; i++) {
+                    if (obj.points[i].y < top) top = obj.points[i].y;
+                    else if (obj.points[i].y > bottom) bottom = obj.points[i].y;
+
+                    if (obj.points[i].x < left) left = obj.points[i].x;
+                    else if (obj.points[i].x > right) right = obj.points[i].x;
+                }
+                center.x = (right - left) / 2;
+                center.y = (bottom - top) / 2;
+                break;
+            default:
+                break;
+        }
+        return center;
+    }
+
     static quickSave() {
         Cookies.set("animTempSave", renderer.anim.getSaveString(), { expires: 1 });
         console.log(Cookies.get("animTempSave"));

@@ -30,67 +30,10 @@ class PathTool extends Tool {
 
         // Draw dummy object to test points in path
         var newObj = new Drawable("path", "Path");
-        newObj.fill = null;
-        newObj.stroke = null;
         newObj.points = this.m_points;
 
-        Anim.drawShape(renderer.anim.ctx, newObj);
-
-        // Get intersect points within shape
-        var intersects = new Array();
-        for(var i = 0; i < newObj.points.length; i++) {
-            var p1 = Object.assign({}, newObj.points[i]), p2;
-            if(i + 1 === newObj.points.length) p2 = Object.assign({}, newObj.points[0]);
-            else p2 = Object.assign({}, newObj.points[i + 1]);
-
-            if(p1.x === p2.x || p1.y === p2.y) continue;
-
-            var tmp = p2.x;
-            p2.x = p1.x;
-            p1.x = tmp;
-
-            if(renderer.anim.ctx.isPointInPath(p1.x, p1.y))
-                intersects.push(p1);
-            else if(renderer.anim.ctx.isPointInPath(p2.x, p2.y))
-                intersects.push(p2);
-        }
-
-        // Declare avg coords
-        var intCenter = null,
-            pointCenter = null,
-            center = null;
-
-        // Find average on outer points
-        var avgX = 0, avgY = 0;
-        for(var i in newObj.points) {
-            avgX += newObj.points[i].x;
-            avgY += newObj.points[i].y;
-        }
-        avgX /= intersects.length;
-        avgY /= intersects.length;
-        pointCenter = new Coord(avgX, avgY);
-
-        // Determine which average to use
-        if(intersects.length > 0) {
-            // Find average on intersect points
-            avgX = 0;
-            avgY = 0;
-            for(var i in intersects) {
-                avgX += intersects[i].x;
-                avgY += intersects[i].y;
-            }
-
-            avgX /= intersects.length;
-            avgY /= intersects.length;
-            intCenter = new Coord(avgX, avgY);
-
-            // If point center is valid average the averages
-            if(renderer.anim.ctx.isPointInPath(pointCenter.x, pointCenter.y))
-                center = new Coord((intCenter.x + pointCenter.x) / 2, (intCenter.y + pointCenter.y) / 2);
-            else center = intCenter;
-        } else center = pointCenter; // Use point averages if no intersects
-
         // Translate object to origin
+        var center = Utilities.getBoundingCenter(newObj);
         for(var i in newObj.points) {
             var point = newObj.points[i];
             point.x -= center.x;
