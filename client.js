@@ -13,5 +13,9 @@ addEventListener("load", function() {
     dom.generateObjectViewFrame();
     dom.generateObjectViewDrawable();
 
+    addEventListener("beforeunload", function() {
+        Utilities.quickSave();
+    });
+
     Renderer.render(renderer); // Start rendering loop
 });

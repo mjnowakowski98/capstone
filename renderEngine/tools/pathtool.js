@@ -28,14 +28,13 @@ class PathTool extends Tool {
     onToolEnding() {
         removeEventListener("keyup", this.m_endPath); // Remove tool finalize listener
 
-        // Draw dummy object to test points in path
         var newObj = new Drawable("path", "Path");
         newObj.points = this.m_points;
 
         // Translate object to origin
         var center = Utilities.getBoundingCenter(newObj);
-        for(var i in newObj.points) {
-            var point = newObj.points[i];
+        for(let i in newObj.points) {
+            let point = newObj.points[i];
             point.x -= center.x;
             point.y -= center.y;
         }

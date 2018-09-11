@@ -24,8 +24,18 @@ class Utilities { // Small functions for common actions
                     if (obj.points[i].x < left) left = obj.points[i].x;
                     else if (obj.points[i].x > right) right = obj.points[i].x;
                 }
-                center.x = (right - left) / 2;
-                center.y = (bottom - top) / 2;
+                center.x = ((right - left) / 2) + left;
+                center.y = ((bottom - top) / 2) + top;
+
+                var ctx = renderer.anim.ctx;
+                ctx.save();
+                ctx.strokeStyle = "#FF0000";
+                ctx.fillStyle = "#00FF00";
+                ctx.strokeRect(left, top, right - left, bottom - top);
+                ctx.beginPath();
+                ctx.arc(center.x, center.y, 5, 0, Math.PI*2, false);
+                ctx.fill();
+                ctx.restore();
                 break;
             default:
                 break;
