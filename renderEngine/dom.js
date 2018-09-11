@@ -266,26 +266,27 @@ class DOM {
         document.getElementById("fc-remove-frame").addEventListener("click", function() { renderer.anim.removeFrame(renderer.animFrame); });
     }
 
-    loadAnimationFile() { // Read an animation file
+    loadAnimationFile(fileText = null) { // Read an animation file
+        if(fileText) {
+            let animFile = JSON.parse(fileText);
+            renderer.anim = new Anim(animFile)
+            this.generateFrameView();
+            this.generateObjectViewDrawable();
+            this.generateObjectViewFrame();
+            return;
+        }
+
         var fileList = document.getElementById("am-load-animation-modal-loadfile").files;
         var fr = new FileReader();
         fr.readAsText(fileList[0]);
         fr.addEventListener("loadend", function() {
             // Replace current animation
-            var animFile = JSON.parse(fr.result);
+            let animFile = JSON.parse(fr.result);
             renderer.anim = new Anim(animFile);
             dom.generateFrameView();
             dom.generateObjectViewDrawable();
             dom.generateObjectViewFrame();
         });
-    }
-
-    loadAnimationFile(fileText) {
-        let animFile = JSON.parse(fileText);
-        renderer.anim = new Anim(animFile)
-        this.generateFrameView();
-        this.generateObjectViewDrawable();
-        this.generateObjectViewFrame();
     }
 
     loadObjectFile() { // Read an object file
