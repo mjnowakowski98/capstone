@@ -100,12 +100,14 @@ class Anim {
 
     renderFrame(frameNdx) {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        // convert to switch eventually
         for(var i in this.frames[frameNdx].onScreen) {
             var o = this.frames[frameNdx].onScreen[i];
             if(o.objCat === "drawable")
                 Anim.drawShape(this.ctx, this.drawable[o.objRef], o.xPos, o.yPos);
             else if(o.objCat === "container")
                 this.drawObject(this.container[o.objRef], o.xPos, o.yPos);
+            else if(o.objCat === "deleted") continue;
             else console.error("Anim malformed: Object property 'objCat' is invalid");
         }
     }

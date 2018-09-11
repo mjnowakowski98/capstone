@@ -93,7 +93,7 @@ class DOM {
         var container = document.getElementById("object-list-drawable-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
-        for(let i in renderer.anim.drawable) {
+        for(let i = 0; i < renderer.anim.drawable.length; i++) {
             let obj = renderer.anim.drawable[i];
             let newDiv = document.createElement("div");
             newDiv.classList.add("object-list-item");
@@ -109,13 +109,32 @@ class DOM {
             newP.appendChild(document.createTextNode(obj.name));
             newP.classList.add("my-0");
             newDiv.appendChild(newP);
+
+            let delIcn = document.createElement("button");
+            delIcn.setAttribute("type", "button");
+            newDiv.appendChild(delIcn);
             container.appendChild(newDiv);
 
-            newDiv.addEventListener("click", function() {
+            newP.addEventListener("click", function() {
                 var c = renderer.anim.ctx.canvas;
                 var scrCenterX = c.scrollLeft + (c.width / 2);
                 var scrCenterY = c.scrollTop + (c.height / 2);
                 renderer.anim.addObjectToFrame(renderer.animFrame, "drawable", i, scrCenterX, scrCenterY);
+            });
+
+            delIcn.addEventListener("click", function() {
+                for(let frameNdx = 0; frameNdx < renderer.anim.frames.length; frameNdx++) {
+                    let frame = renderer.anim.frames[frameNdx];
+                    for(let scrNdx = 0; scrNdx < frame.onScreen.length; scrNdx++) {
+                        let obj = frame.onScreen[scrNdx];
+                        if(obj.objCat === "drawable" && obj.objRef === i)
+                            obj.objCat = "deleted";
+                    }
+                }
+
+                renderer.anim.drawable.splice(i, 1);
+                dom.generateObjectViewFrame();
+                dom.generateObjectViewDrawable();
             });
         }
     }
