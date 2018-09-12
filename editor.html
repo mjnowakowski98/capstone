@@ -136,6 +136,9 @@
 
             <!-- Remove Frame -->
             <button type="button" id="fc-remove-frame" class="tool iconbtn btn btn-outline-danger"></button>
+
+            <!-- Clear Frame -->
+            <button type="button" id="fc-clear-frame" class="tool iconbtn btn btn-outline-danger"></button>
         </span>
 
         <!-- Frame Viewer-->
@@ -273,7 +276,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Load object form here</p>
+                <!-- From File -->
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" id="am-load-object-modal-loadfile" class="custom-file-input">
+                        <label class="custom-file-label" for="am-load-animation-modal-loadfile">Upload a file...</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button type="button" id="am-load-object-modal-loadfile-submit" class="btn" data-dismiss="modal">Submit</button>
+                    </div>
+                </div>
+
+                <!-- From Server-->
+                <hr>
+                <p>Loading from server coming soon&trade;</p>
             </div>
         </div>
     </div>
@@ -441,19 +457,25 @@
         $('#fc-add-blank-frame').tooltip({
             title:"Add Frame",
             trigger:"hover",
-            placemet:"top"
+            placement:"top"
         });
 
         $('#fc-add-copy-frame').tooltip({
             title:"Copy Frame",
             trigger:"hover",
-            placemet:"top"
+            placement:"top"
         });
 
         $('#fc-remove-frame').tooltip({
             title:"Remove Frame",
             trigger:"hover",
-            placemet:"top"
+            placement:"top"
+        });
+
+        $('#fc-clear-frame').tooltip({
+            title:"Clear Frame",
+            trigger:"hover",
+            placement:"top"
         });
 
         $('#tool-select').tooltip({

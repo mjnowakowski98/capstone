@@ -38,6 +38,7 @@ class Renderer {
             this.m_then = performance.now();
             this.m_animFramePrePlay = this.animFrame;
             dom.toggleTools(false);
+            dom.currentTool = "none";
         } else {
             this.m_animFrame = this.m_animFramePrePlay
             dom.toggleTools(true);

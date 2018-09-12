@@ -95,8 +95,12 @@ class DOM {
 
         for(let i = 0; i < renderer.anim.drawable.length; i++) {
             let obj = renderer.anim.drawable[i];
+            if(!obj) continue;
+
             let newDiv = document.createElement("div");
             newDiv.classList.add("object-list-item");
+            newDiv.classList.add("d-flex");
+            newDiv.classList.add("justify-content-left");
             if(!(i % 2)) {
                 newDiv.classList.add("text-black");
                 newDiv.classList.add("bg-light");
@@ -105,17 +109,28 @@ class DOM {
                 newDiv.classList.add("bg-dark");
             }
 
-            let newP = document.createElement("p");
-            newP.appendChild(document.createTextNode(obj.name));
-            newP.classList.add("my-0");
-            newDiv.appendChild(newP);
+            let newInp = document.createElement("input");
+            newInp.setAttribute("type", "text");
+            newInp.setAttribute("value", obj.name);
+            newInp.classList.add("my-0", "border-0");
+            newInp.style.background = "none";
+            newDiv.appendChild(newInp);
+
+            let copyIcn = document.createElement("button");
+            copyIcn.setAttribute("type", "button");
+            newDiv.appendChild(copyIcn);
 
             let delIcn = document.createElement("button");
             delIcn.setAttribute("type", "button");
             newDiv.appendChild(delIcn);
             container.appendChild(newDiv);
 
-            newP.addEventListener("click", function() {
+            newInp.addEventListener("change", function() {
+                renderer.anim.drawable[i].name = newInp.value;
+                dom.generateObjectViewFrame();
+            });
+
+            copyIcn.addEventListener("click", function() {
                 var c = renderer.anim.ctx.canvas;
                 var scrCenterX = c.scrollLeft + (c.width / 2);
                 var scrCenterY = c.scrollTop + (c.height / 2);
@@ -125,14 +140,15 @@ class DOM {
             delIcn.addEventListener("click", function() {
                 for(let frameNdx = 0; frameNdx < renderer.anim.frames.length; frameNdx++) {
                     let frame = renderer.anim.frames[frameNdx];
-                    for(let scrNdx = 0; scrNdx < frame.onScreen.length; scrNdx++) {
+                    for(let scrNdx = frame.onScreen.length - 1; scrNdx >= 0; scrNdx--) {
                         let obj = frame.onScreen[scrNdx];
                         if(obj.objCat === "drawable" && obj.objRef === i)
-                            obj.objCat = "deleted";
+                            frame.onScreen.splice(scrNdx, 1);
                     }
                 }
 
-                renderer.anim.drawable.splice(i, 1);
+                dom.getToolByName("Select").ref.selectObject(null);
+                renderer.anim.drawable[i] = null;
                 dom.generateObjectViewFrame();
                 dom.generateObjectViewDrawable();
             });
@@ -143,7 +159,7 @@ class DOM {
         var container = document.getElementById("object-list-frame-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
-        for(let i in renderer.anim.frames[renderer.animFrame].onScreen) {
+        for(let i = 0; i < renderer.anim.frames[renderer.animFrame].onScreen.length; i++) {
             let obj = renderer.anim.frames[renderer.animFrame].onScreen[i];
             if(obj.objCat !== "drawable") continue;
 
@@ -159,12 +175,18 @@ class DOM {
 
             let name = obj.instanceName;
             (name) ? name = name : name = renderer.anim.drawable[obj.objRef].name;
-            let newP = document.createElement("p");
-            newP.classList.add("my-0");
-            newP.appendChild(document.createTextNode(name));
-            newDiv.appendChild(newP);
+            let newInp = document.createElement("input");
+            newInp.setAttribute("type", "text");
+            newInp.setAttribute("value", name);
+            newInp.classList.add("my-0", "border-0");
+            newInp.style.background = "none";
+
+            newDiv.appendChild(newInp);
             container.appendChild(newDiv);
 
+            newInp.addEventListener("change", function() {
+                renderer.anim.frames[renderer.animFrame].onScreen[i].instanceName = newInp.value;
+            });
             newDiv.addEventListener("click", function() { dom.getToolByName("Select").ref.selectObject(obj); });
         }
     }
@@ -214,6 +236,7 @@ class DOM {
                 dom.tools[i].ref.onFrame();
         });
 
+        // Window Resize
         addEventListener("resize", function() {
             dom.setTitleMarquee();
         });
@@ -234,7 +257,7 @@ class DOM {
         document.getElementById("am-save-animation-modal-save").addEventListener("click", function() {
             renderer.anim.animName = document.getElementById("am-save-animation-modal-filename").value;
 
-            var dLink = document.createElement("a");
+            let dLink = document.createElement("a");
             dLink.setAttribute("href", "data:application/json, " + encodeURIComponent(renderer.anim.getSaveString()));
             dLink.setAttribute('download', renderer.anim.animName);
 
@@ -245,8 +268,28 @@ class DOM {
             } else dLink.click();
         });
 
-        // Load anim/object files
+        // Load animation
         document.getElementById("am-load-animation-modal-loadfile-submit").addEventListener("click", function() { dom.loadAnimationFile(); });
+
+        // Save Object
+        document.getElementById("am-save-object-modal-save").addEventListener("click", function() {
+            let selectTool = dom.getToolByName("Select").ref;
+            if(!selectTool.hasObject) return;
+
+            let saveString = renderer.anim.getSaveString(renderer.anim.drawable[selectTool.selectedObject.objRef]);
+            let dLink = document.createElement("a");
+            dLink.setAttribute("href", "data:application/json, " + saveString);
+            dLink.setAttribute('download', document.getElementById("am-save-object-modal-filename").value);
+
+            if(document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                dLink.dispatchEvent(event);
+            } else dLink.click();
+        });
+
+        // Load object
+        document.getElementById("am-load-object-modal-loadfile-submit").addEventListener("click", function() { dom.loadObjectFile(); })
 
         // Save Project Settings
         document.getElementById("am-project-settings-modal-save").addEventListener("click", function() {
@@ -288,6 +331,10 @@ class DOM {
         document.getElementById("fc-add-blank-frame").addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame); });
         document.getElementById("fc-add-copy-frame").addEventListener("click", function() { renderer.anim.addFrame(renderer.animFrame, true); });
         document.getElementById("fc-remove-frame").addEventListener("click", function() { renderer.anim.removeFrame(renderer.animFrame); });
+        document.getElementById("fc-clear-frame").addEventListener("click", function() {
+            renderer.anim.clearFrameObjects(renderer.animFrame);
+            dom.getToolByName("Select").ref.selectObject(null);
+        });
     }
 
     loadAnimationFile(fileText = null) { // Read an animation file
@@ -314,7 +361,7 @@ class DOM {
     }
 
     loadObjectFile() { // Read an object file
-        var fileList = dom.objSubmit.files;
+        var fileList = document.getElementById("am-load-object-modal-loadfile").files;
         var fr = new FileReader();
         fr.readAsText(fileList[0]);
         fr.addEventListener("loadend", function() {

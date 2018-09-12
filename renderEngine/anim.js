@@ -170,16 +170,44 @@ class Anim {
         ctx.restore();
     }
 
-    getSaveString() {
+    getSaveString(rootObj = null) {
         var newSave = new Object();
-        newSave.animName = this.animName;
-        newSave.backgroundColor = this.backgroundColor;
-        newSave.framesPerSecond = this.framesPerSecond;
-        newSave.width = this.width;
-        newSave.height = this.height;
+        if(rootObj) {
+            newSave.name = rootObj.name;
+            newSave.shape = rootObj.shape;
+            newSave.drawable = rootObj.drawable;
+            if(newSave.drawable) {
+                if(rootObj.fill) newSave.fill = rootObj.fill;
+                if(rootObj.stroke) {
+                    newSave.stroke = rootObj.stroke;
+                    newSave.strokeWidth = rootObj.strokeWidth;
+                }
 
-        newSave.objects = this.m_objects;
-        newSave.frames = this.frames;
+                switch(newSave.shape) {
+                    case "rect":
+                        newSave.width = rootObj.width;
+                        newSave.height = rootObj.height;
+                        break;
+                    case "circle":
+                        newSave.radius = rootObj.radius;
+                        break;
+                    case "path":
+                        newSave.points = rootObj.points;
+                    default:
+                        break;
+                }
+            }
+
+        } else {
+            newSave.animName = this.animName;
+            newSave.backgroundColor = this.backgroundColor;
+            newSave.framesPerSecond = this.framesPerSecond;
+            newSave.width = this.width;
+            newSave.height = this.height;
+
+            newSave.objects = this.m_objects;
+            newSave.frames = this.frames;
+        }
 
         return JSON.stringify(newSave);
     }
