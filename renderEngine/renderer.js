@@ -40,7 +40,7 @@ class Renderer {
             dom.toggleTools(false);
             dom.currentTool = "none";
         } else {
-            this.m_animFrame = this.m_animFramePrePlay
+            this.scrubFrames(this.m_animFramePrePlay - this.animFrame);
             dom.toggleTools(true);
         };
     }
