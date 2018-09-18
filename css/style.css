@@ -23,8 +23,10 @@ div.object-list-item {
 }
 
 .frame-box {
-    width:30px;
+    width:38px;
     height:38px;
+    padding:0;
+    padding-top:5px;
 }
 
 @keyframes marquee {
@@ -41,6 +43,8 @@ div.object-list-item {
     margin-top:46px;
     margin-bottom:92px;
 }
+
+#frame-view-container { overflow-x:auto; }
 
 /* Colors */
 .bg-label { background-color:#E9ECEF; }

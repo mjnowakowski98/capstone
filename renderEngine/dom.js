@@ -1,4 +1,7 @@
 // This is still a steamy POS
+//-----------------------------
+// 9/18/18 Early morning edit
+// Destroy this file after SE264
 
 class DOM {
     constructor() {
@@ -188,18 +191,36 @@ class DOM {
         }
     }
 
+    highlightFrame() {
+        for(let j = 0; j < renderer.anim.frames.length; j++) {
+            let frameBox = document.getElementById("frame" + j);
+            if(j !== renderer.animFrame) {
+                frameBox.classList.remove("btn-success");
+                frameBox.classList.add("btn-primary");
+            } else {
+                frameBox.classList.add("btn-success");
+                frameBox.classList.remove("btn-primary");
+            }
+        }
+    }
+
     generateFrameView() {
         var container = document.getElementById("frame-view-container");
         while(container.firstChild) container.removeChild(container.firstChild);
 
-        for(let i in renderer.anim.frames) {
+        for(let i = 0; i < renderer.anim.frames.length; i++) {
             let newFrame = document.createElement("div");
             newFrame.appendChild(document.createTextNode(i));
             newFrame.id = "frame" + i;
-            newFrame.classList.add("frame-box", "d-inline-block", "bg-light", "my-1", "mr-1", "btn",  "btn-outline-primary");
-            newFrame.addEventListener("click", function() { renderer.scrubFrames(i - renderer.animFrame); });
+            newFrame.classList.add("frame-box", "d-inline-block", "my-1", "mr-1", "btn",  "btn-primary");
+            
+            newFrame.addEventListener("click", function() {
+                renderer.scrubFrames(i - renderer.animFrame);
+            });
             container.appendChild(newFrame);
         }
+
+        this.highlightFrame();
     }
 
     setTitleMarquee() {

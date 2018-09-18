@@ -69,6 +69,7 @@ class Renderer {
 
         dom.getToolByName("Select").ref.selectObject(null);
         dom.generateObjectViewFrame();
+        dom.generateFrameView();
     }
 
     // Because rAF doesn't like method callbacks
