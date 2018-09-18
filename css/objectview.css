@@ -1,0 +1,13 @@
+.del-icon {
+	width:25px;
+	height:25px;
+	background-image:url(../icons/toolbox/deletetool.svg);
+	background-repeat:no-repeat;
+}
+
+.copy-icon {
+	width:25px;
+	height:25px;
+	background-image:url(../icons/toolbox/copyicon.svg);
+	background-repeat:no-repeat;
+}

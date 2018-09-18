@@ -98,29 +98,28 @@ class DOM {
             if(!obj) continue;
 
             let newDiv = document.createElement("div");
-            newDiv.classList.add("object-list-item");
-            newDiv.classList.add("d-flex");
-            newDiv.classList.add("justify-content-left");
-            if(!(i % 2)) {
-                newDiv.classList.add("text-black");
-                newDiv.classList.add("bg-light");
-            } else {
-                newDiv.classList.add("text-white")
-                newDiv.classList.add("bg-dark");
-            }
+            newDiv.classList.add("object-list-item", "d-flex", "justify-content-left");
 
             let newInp = document.createElement("input");
             newInp.setAttribute("type", "text");
             newInp.setAttribute("value", obj.name);
             newInp.classList.add("my-0", "border-0");
-            newInp.style.background = "none";
+            if(!(i % 2)) {
+                newDiv.classList.add("text-black", "bg-light");
+                newInp.classList.add("text-black", "bg-light");
+            } else {
+                newDiv.classList.add("text-white", "bg-dark");
+                newInp.classList.add("text-white", "bg-dark");
+            }
             newDiv.appendChild(newInp);
 
             let copyIcn = document.createElement("button");
+            copyIcn.classList.add("copy-icon", "btn", "btn-outline-primary", "mx-1");
             copyIcn.setAttribute("type", "button");
             newDiv.appendChild(copyIcn);
 
             let delIcn = document.createElement("button");
+            delIcn.classList.add("del-icon", "btn", "btn-outline-danger");
             delIcn.setAttribute("type", "button");
             newDiv.appendChild(delIcn);
             container.appendChild(newDiv);
@@ -165,13 +164,6 @@ class DOM {
 
             let newDiv = document.createElement("div");
             newDiv.classList.add("object-list-item");
-            if(!(i % 2)) {
-                newDiv.classList.add("text-black");
-                newDiv.classList.add("bg-light");
-            } else {
-                newDiv.classList.add("text-white");
-                newDiv.classList.add("bg-dark");
-            }
 
             let name = obj.instanceName;
             (name) ? name = name : name = renderer.anim.drawable[obj.objRef].name;
@@ -179,8 +171,13 @@ class DOM {
             newInp.setAttribute("type", "text");
             newInp.setAttribute("value", name);
             newInp.classList.add("my-0", "border-0");
-            newInp.style.background = "none";
-
+            if(!(i % 2)) {
+                newDiv.classList.add("text-black", "bg-light");
+                newInp.classList.add("text-black", "bg-light");
+            } else {
+                newDiv.classList.add("text-white", "bg-dark");
+                newInp.classList.add("text-white", "bg-dark");
+            }
             newDiv.appendChild(newInp);
             container.appendChild(newDiv);
 
